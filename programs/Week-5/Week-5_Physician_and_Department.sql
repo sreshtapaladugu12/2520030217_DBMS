@@ -2,7 +2,7 @@
 -- WEEK 5 - PHYSICIAN & DEPARTMENT
 -- =========================================================
 
-CREATE DATABASE IF NOT EXISTS hospital_db;
+ CREATE DATABASE IF NOT EXISTS hospital_db;
 USE hospital_db;
 
 
