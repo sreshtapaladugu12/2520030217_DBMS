@@ -1,5 +1,6 @@
 CREATE DATABASE bank_db;
 
+
 USE bank_db;
 CREATE TABLE bank_transactions (
     txn_id INT PRIMARY KEY,
