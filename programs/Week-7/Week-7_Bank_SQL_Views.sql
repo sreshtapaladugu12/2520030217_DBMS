@@ -1,6 +1,4 @@
--- ============================================================
--- WEEK 7 - BANK DATABASE: SQL VIEWS
--- ============================================================
+
 
 CREATE DATABASE IF NOT EXISTS BankViewsDB;
 USE BankViewsDB;
