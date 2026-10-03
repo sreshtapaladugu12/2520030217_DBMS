@@ -1,0 +1,29 @@
+{
+  "name": "encrypted-secret-file-transfer",
+  "version": "1.0.0",
+  "description": "Encrypted Secret File Transfer Distributed Backend Database System (React + Node/Express + MongoDB)",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && npm --prefix frontend install",
+    "dev": "node scripts/start-all.js --frontend",
+    "start": "node scripts/start-all.js",
+    "build": "npm --prefix frontend run build",
+    "start:gateway": "node gateway/server.js",
+    "start:auth": "node services/auth-service/server.js",
+    "start:file": "node services/file-service/server.js",
+    "start:permission": "node services/permission-service/server.js",
+    "start:audit": "node services/audit-service/server.js",
+    "reset:data": "node scripts/reset-data.js",
+    "check": "node scripts/check.js",
+    "test:unit": "node --test tests/unit.test.js",
+    "test:smoke": "node scripts/smoke-test.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "multer": "^2.0.2"
+  }
+}

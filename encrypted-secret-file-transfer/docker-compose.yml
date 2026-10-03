@@ -1,0 +1,50 @@
+# docker compose up --build      (then: docker compose run --rm gateway node scripts/reset-data.js)
+# Secrets can be overridden from your shell or a .env file next to this file.
+x-backend: &backend
+  build: .
+  restart: unless-stopped
+  depends_on: [mongo]
+  environment: &env
+    NODE_ENV: development
+    SERVICE_HOST: 0.0.0.0
+    MONGODB_URI: mongodb://mongo:27017/encrypted_file_transfer
+    JWT_SECRET: ${JWT_SECRET:-change_this_in_real_environment}
+    FILE_ENCRYPTION_KEY: ${FILE_ENCRYPTION_KEY:-change_this_in_real_environment}
+    INTERNAL_API_KEY: ${INTERNAL_API_KEY:-change_this_internal_key}
+    AUTH_SERVICE_URL: http://auth-service:4101
+    FILE_SERVICE_URL: http://file-service:4102
+    PERMISSION_SERVICE_URL: http://permission-service:4103
+    AUDIT_SERVICE_URL: http://audit-service:4104
+    FILE_STORAGE_DIR: /app/uploads/encrypted
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes: [mongo-data:/data/db]
+    ports: ["27017:27017"]   # lets MongoDB Compass connect to mongodb://localhost:27017
+
+  auth-service:
+    <<: *backend
+    command: node services/auth-service/server.js
+  audit-service:
+    <<: *backend
+    command: node services/audit-service/server.js
+  permission-service:
+    <<: *backend
+    command: node services/permission-service/server.js
+  file-service:
+    <<: *backend
+    command: node services/file-service/server.js
+    volumes: [encrypted-files:/app/uploads]
+
+  gateway:
+    <<: *backend
+    command: node gateway/server.js
+    volumes: [encrypted-files:/app/uploads]   # so reset-data / smoke test can reach the storage dir
+    depends_on: [auth-service, audit-service, permission-service, file-service]
+    ports: ["4000:4000"]
+
+volumes:
+  mongo-data:
+  encrypted-files:

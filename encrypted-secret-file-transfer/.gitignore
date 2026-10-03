@@ -1,0 +1,8 @@
+node_modules/
+.expo/
+.env
+uploads/*
+!uploads/.gitkeep
+frontend/dist/
+logs/
+*.log
